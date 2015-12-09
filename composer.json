@@ -1,0 +1,12 @@
+{
+    "name": "willing/scss",
+    "authors": [
+        {
+            "name": "Christian Willing",
+            "email": "christian.willing@online.de"
+        }
+    ],
+    "require": {
+        "leafo/scssphp": "0.0.12"
+    }
+}
