@@ -1,10 +1,12 @@
 <?php namespace Willing\Scss;
 
 use System\Classes\PluginBase;
-use Event;
 
 class Plugin extends PluginBase
 {
+    /**
+     * set the filter to compile scss files
+     */
     function __construct() {
         \System\Classes\CombineAssets::registerCallback(function($combiner){
             if ($combiner->useMinify) {
@@ -12,7 +14,12 @@ class Plugin extends PluginBase
             }
             $combiner->registerFilter('scss', new \Willing\Scss\Classes\Compiler);
         });
-   }
+    }
+
+    /**
+     * [pluginDetails description]
+     * @return array
+     */
     public function pluginDetails()
     {
         return [
@@ -21,10 +28,5 @@ class Plugin extends PluginBase
             'author'      => 'Christian Willing',
             'icon'        => 'icon-pencil'
         ];
-    }
-
-    public function boot()
-    {
-
     }
 }

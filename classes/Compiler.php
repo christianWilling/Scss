@@ -7,11 +7,7 @@ use Assetic\Filter\FilterInterface;
 use Leafo\ScssPhp;
 
 /**
- * Less.php Compiler Filter
- * Class used to compiled stylesheet less files, not using leafo!
  *
- * @package october/support
- * @author Alexey Bobkov, Samuel Georges
  */
 class Compiler implements FilterInterface
 {
