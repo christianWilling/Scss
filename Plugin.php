@@ -5,16 +5,9 @@ use System\Classes\PluginBase;
 class Plugin extends PluginBase
 {
     /**
-     * set the filter to compile scss files
+     * @var boolean Determine if this plugin should have elevated privileges.
      */
-    function __construct() {
-        \System\Classes\CombineAssets::registerCallback(function($combiner){
-            if ($combiner->useMinify) {
-                $this->registerFilter('scss', new \October\Rain\Support\Filters\StylesheetMinify);
-            }
-            $combiner->registerFilter('scss', new \Willing\Scss\Classes\Compiler);
-        });
-    }
+    public $elevated = true;
 
     /**
      * [pluginDetails description]
@@ -28,5 +21,18 @@ class Plugin extends PluginBase
             'author'      => 'Christian Willing',
             'icon'        => 'icon-pencil'
         ];
+    }
+
+    /**
+     * set the filter to compile scss files
+     */
+    public function boot()
+    {
+        \System\Classes\CombineAssets::registerCallback(function($combiner){
+            if ($combiner->useMinify) {
+                $this->registerFilter('scss', new \October\Rain\Support\Filters\StylesheetMinify);
+            }
+            $combiner->registerFilter('scss', new \Willing\Scss\Classes\Compiler);
+        });
     }
 }
