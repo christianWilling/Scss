@@ -7,6 +7,7 @@ class Plugin extends PluginBase
     /**
      * @var boolean Determine if this plugin should have elevated privileges.
      */
+    
     public $elevated = true;
 
     /**
