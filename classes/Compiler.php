@@ -5,6 +5,8 @@ require_once dirname(__dir__).'/vendor/leafo/scssphp/scss.inc.php';
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\FilterInterface;
 use Leafo\ScssPhp;
+use Exception;
+use File;
 
 /**
  * a custom compiler for Scss
@@ -18,13 +20,48 @@ class Compiler implements FilterInterface
      */
     public function filterLoad(AssetInterface $asset)
     {
-        $scss = new \scssc();
+        try {
+            $scss = new \scssc();
 
-        if ($dir = $asset->getSourceDirectory()) {
-            $scss->setImportPaths($dir);
+
+            $dir = $asset->getSourceDirectory();
+
+            $paths = [];
+            $scss->addImportPath(function($path) use ($dir, &$paths) {
+
+                $path = File::normalizePath($dir.'/'.$path);
+
+                $dotScss = $path.'.scss';
+
+                $pathParts = explode('/', $path);
+                $filenameKey = last(array_keys($pathParts));
+                $pathParts[$filenameKey] = '_'.$pathParts[$filenameKey];
+                $underscoreDotScss = implode('/', $pathParts).'.scss';
+
+                $paths[] = $path;
+                if(File::exists($path)){
+                    $pathOut = $path;
+                } elseif(File::exists($dotScss)) {
+                    $pathOut = $dotScss;
+                } elseif((File::exists($underscoreDotScss))) {
+                    $pathOut = $underscoreDotScss;
+                } else {
+                    throw new Exception('File not found: '.$path);
+                }
+
+                return $pathOut;
+            });
+
+            $code = $scss->compile($asset->getContent());
+            $asset->setContent($code);
+        } catch (Exception $e) {
+            $msg = $e->getMessage();
+            $msg .= "\n".$e->getTraceAsString();
+            $msg = str_replace('\\', '\\\\', $msg);
+            $msg = str_replace("\n", '\\A', $msg);
+            $con = 'body:before {white-space: pre;font-family: monospace;content: "'.$msg.'"';
+            $asset->setContent($con);
         }
-
-        $asset->setContent($scss->compile($asset->getContent()));
     }
     /**
      * Filters an asset just before it's dumped.
