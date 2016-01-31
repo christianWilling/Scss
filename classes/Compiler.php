@@ -4,7 +4,7 @@ require_once dirname(__dir__).'/vendor/leafo/scssphp/scss.inc.php';
 
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\FilterInterface;
-use Leafo\ScssPhp;
+use Leafo\ScssPhp\Compiler as ScssCompiler;
 use Cms\Classes\Theme;
 use Exception;
 use File;
@@ -22,7 +22,9 @@ class Compiler implements FilterInterface
     public function filterLoad(AssetInterface $asset)
     {
         try {
-            $scss = new \scssc();
+            $scss = new ScssCompiler();
+
+            $scss->setFormatter('Leafo\ScssPhp\Formatter\Expanded');
 
             $scss->setVariables([
                 'theme-folder' => '"'.url('/themes/'.Theme::getActiveTheme()->getDirName()).'/"',
@@ -58,7 +60,6 @@ class Compiler implements FilterInterface
             $asset->setContent($code);
         } catch (Exception $e) {
             $msg = $e->getMessage();
-            $msg .= "\n".$e->getTraceAsString();
             $msg = str_replace('\\', '\\\\', $msg);
             $msg = str_replace("\n", '\\A', $msg);
             $con = 'body:before {white-space: pre;font-family: monospace;content: "'.$msg.'"';
