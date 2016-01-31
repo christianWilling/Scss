@@ -5,6 +5,7 @@ require_once dirname(__dir__).'/vendor/leafo/scssphp/scss.inc.php';
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\FilterInterface;
 use Leafo\ScssPhp;
+use Cms\Classes\Theme;
 use Exception;
 use File;
 
@@ -23,10 +24,12 @@ class Compiler implements FilterInterface
         try {
             $scss = new \scssc();
 
+            $scss->setVariables([
+                'theme-folder' => '"'.url('/themes/'.Theme::getActiveTheme()->getDirName()).'/"',
+            ]);
 
             $dir = $asset->getSourceDirectory();
 
-            $paths = [];
             $scss->addImportPath(function($path) use ($dir, &$paths) {
 
                 $path = File::normalizePath($dir.'/'.$path);
@@ -38,7 +41,6 @@ class Compiler implements FilterInterface
                 $pathParts[$filenameKey] = '_'.$pathParts[$filenameKey];
                 $underscoreDotScss = implode('/', $pathParts).'.scss';
 
-                $paths[] = $path;
                 if(File::exists($path)){
                     $pathOut = $path;
                 } elseif(File::exists($dotScss)) {
