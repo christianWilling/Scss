@@ -2,3 +2,6 @@
     - Initialize plugin.
 1.0.2:
     - change the filter load methode.
+1.1.1
+    - adding parsing error reporting
+    - updateing requirements
