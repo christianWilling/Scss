@@ -1,6 +1,6 @@
 <?php namespace Willing\Scss\Classes;
 
-require_once dirname(__dir__).'/vendor/leafo/scssphp/scss.inc.php';
+require_once dirname(__dir__).'/vendor/autoload.php';
 
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\FilterInterface;
