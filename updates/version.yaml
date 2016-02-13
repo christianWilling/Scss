@@ -5,3 +5,5 @@
 1.1.1:
     - adding parsing error reporting.
     - updateing requirements.
+1.1.2:
+    - bugfix.
