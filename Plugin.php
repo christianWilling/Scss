@@ -31,7 +31,7 @@ class Plugin extends PluginBase
     {
         \System\Classes\CombineAssets::registerCallback(function($combiner){
             if ($combiner->useMinify) {
-                $this->registerFilter('scss', new \October\Rain\Support\Filters\StylesheetMinify);
+                $combiner->registerFilter('scss', new \October\Rain\Support\Filters\StylesheetMinify);
             }
             $combiner->registerFilter('scss', new \Willing\Scss\Classes\Compiler);
         });
