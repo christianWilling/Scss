@@ -4,6 +4,7 @@ require_once dirname(__dir__).'/vendor/autoload.php';
 
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\FilterInterface;
+use Assetic\Filter\HashableInterface;
 use Leafo\ScssPhp\Compiler as ScssCompiler;
 use Cms\Classes\Theme;
 use Exception;
@@ -12,7 +13,7 @@ use File;
 /**
  * a custom compiler for Scss
  */
-class Compiler implements FilterInterface
+class Compiler implements FilterInterface, HashableInterface
 {
     /**
      * function thats called to compile a file
@@ -73,5 +74,11 @@ class Compiler implements FilterInterface
      */
     public function filterDump(AssetInterface $asset)
     {}
+
+    public function hash()
+    {
+        dd('asd');
+        return '';
+    }
 
 }

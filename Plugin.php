@@ -7,7 +7,7 @@ class Plugin extends PluginBase
     /**
      * @var boolean Determine if this plugin should have elevated privileges.
      */
-    
+
     public $elevated = true;
 
     /**
@@ -33,7 +33,8 @@ class Plugin extends PluginBase
             if ($combiner->useMinify) {
                 $combiner->registerFilter('scss', new \October\Rain\Support\Filters\StylesheetMinify);
             }
-            $combiner->registerFilter('scss', new \Willing\Scss\Classes\Compiler);
+            $combiner->registerFilter('scss', new \Assetic\Filter\ScssphpFilter);
+            // $combiner->registerFilter('scss', new \Willing\Scss\Classes\Compiler);
         });
     }
 }
