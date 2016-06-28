@@ -1,6 +1,7 @@
 <?php namespace Willing\Scss;
 
 use System\Classes\PluginBase;
+use Cms\Classes\Theme;
 
 class Plugin extends PluginBase
 {
@@ -33,8 +34,9 @@ class Plugin extends PluginBase
             if ($combiner->useMinify) {
                 $combiner->registerFilter('scss', new \October\Rain\Support\Filters\StylesheetMinify);
             }
+
             //init the filter class
-            $filter = new \Assetic\Filter\ScssphpFilter;
+            $filter = new \Assetic\Filter\ScssphpFilter();
 
             //set the output formate
             $filter->setFormatter('Leafo\ScssPhp\Formatter\Expanded');
@@ -44,7 +46,7 @@ class Plugin extends PluginBase
                 'theme-folder' => '"'.url('/themes/'.Theme::getActiveTheme()->getDirName()).'/"',
             ]);
 
-
+            //set the filter
             $combiner->registerFilter('scss', $filter);
         });
     }
