@@ -33,8 +33,19 @@ class Plugin extends PluginBase
             if ($combiner->useMinify) {
                 $combiner->registerFilter('scss', new \October\Rain\Support\Filters\StylesheetMinify);
             }
-            $combiner->registerFilter('scss', new \Assetic\Filter\ScssphpFilter);
-            // $combiner->registerFilter('scss', new \Willing\Scss\Classes\Compiler);
+            //init the filter class
+            $filter = new \Assetic\Filter\ScssphpFilter;
+
+            //set the output formate
+            $filter->setFormatter('Leafo\ScssPhp\Formatter\Expanded');
+
+            //set some helpfull variables
+            $filter->setVariables([
+                'theme-folder' => '"'.url('/themes/'.Theme::getActiveTheme()->getDirName()).'/"',
+            ]);
+
+
+            $combiner->registerFilter('scss', $filter);
         });
     }
 }
