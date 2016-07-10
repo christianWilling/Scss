@@ -6,8 +6,7 @@
     "keywords": ["october", "cms", "willing", "sass", "scss"],
     "authors": [
         {
-            "name": "Christian Willing",
-            "email": ""
+            "name": "Christian Willing"
         }
     ],
     "require": {
