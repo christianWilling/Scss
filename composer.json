@@ -1,0 +1,16 @@
+{
+    "name": "willing/scss",
+    "type": "october-plugin",
+    "description": "Adds SCSS support to the standard October resource combiner",
+    "homepage": "http://octobercms.com",
+    "keywords": ["october", "cms", "willing", "sass", "scss"],
+    "authors": [
+        {
+            "name": "Christian Willing",
+            "email": ""
+        }
+    ],
+    "require": {
+        "leafo/scssphp": "dev-master"
+    }
+}
