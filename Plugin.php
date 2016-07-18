@@ -1,9 +1,10 @@
 <?php namespace Willing\Scss;
 
-require dirname(__FILE__).'vendor/autoload.php';
+require_once __dir__.'/vendor/autoload.php';
 
 use System\Classes\PluginBase;
 use Cms\Classes\Theme;
+use Event;
 
 class Plugin extends PluginBase
 {
@@ -32,13 +33,15 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
-        \System\Classes\CombineAssets::registerCallback(function($combiner){
+        //the files wich children are included in the hash function of the filter
+        $files = [];
+
+        \System\Classes\CombineAssets::registerCallback(function($combiner) use (&$files){
             if ($combiner->useMinify) {
                 $combiner->registerFilter('scss', new \October\Rain\Support\Filters\StylesheetMinify);
             }
-
-            //init the filter class
-            $filter = new \Assetic\Filter\ScssphpFilter();
+            //init the filter class with the reverrence to the hash files
+            $filter = new \Willing\Scss\Classes\ScssFilter($files);
 
             //set the output formate
             $filter->setFormatter('Leafo\ScssPhp\Formatter\Expanded');
@@ -50,6 +53,16 @@ class Plugin extends PluginBase
 
             //set the filter
             $combiner->registerFilter('scss', $filter);
+        });
+
+        //get current files for the hash function and give them to it by reverrence
+        Event::listen('cms.combiner.beforePrepare', function($combiner, $assets) use (&$files) {
+            $files = [];
+            foreach ($assets as $asset) {
+                if(pathinfo($asset)['extension'] == 'scss'){
+                    $files[] = $asset;
+                }
+            }
         });
     }
 }
