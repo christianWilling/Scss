@@ -1,5 +1,7 @@
 <?php namespace Willing\Scss;
 
+require dirname(__FILE__).'vendor/autoload.php';
+
 use System\Classes\PluginBase;
 use Cms\Classes\Theme;
 
