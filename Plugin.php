@@ -1,6 +1,7 @@
 <?php namespace Willing\Scss;
 
 require_once __dir__.'/vendor/autoload.php';
+require_once __dir__.'/classes/ScssFilter.php';
 
 use System\Classes\PluginBase;
 use Cms\Classes\Theme;
@@ -53,6 +54,7 @@ class Plugin extends PluginBase
 
             //set the filter
             $combiner->registerFilter('scss', $filter);
+            $combiner->registerFilter('scss', new \Assetic\Filter\CssRewriteFilter);
         });
 
         //get current files for the hash function and give them to it by reverrence
